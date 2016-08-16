@@ -1,3 +1,4 @@
+#
 class ProfileSerializer < ActiveModel::Serializer
   attributes :id, :firstname, :lastname, :photo, :description, :tags, :user
 

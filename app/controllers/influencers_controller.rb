@@ -59,6 +59,6 @@ class InfluencersController < ProtectedController
     end
 
     def influencer_params
-      params.require(:influencer).permit(:firstname, :lastname, :description, :facebook, :twitter, :instagram, :snapchat, :profession, :tags, :certifications, :user_id)
+      params.require(:influencer).permit(:firstname, :lastname, :description, :facebook, :twitter, :instagram, :snapchat, :profession, :certifications, :user_id)
     end
 end

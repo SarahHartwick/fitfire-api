@@ -7,6 +7,9 @@ class SparksController < ProtectedController
   # GET /sparks.json
   def index
     @sparks = Spark.all
+    if params[:category].present?
+        @sparks =  @sparks.where(category: params[:category])
+    end
 
     render json: @sparks
   end
@@ -23,7 +26,7 @@ class SparksController < ProtectedController
     @spark = Spark.new(spark_params)
     @spark.user_id = @current_user.id
     @owner = Influencer.find_by user_id: @current_user.id
-    @spark.influencer_id = @owner[:id]
+    @spark.influencer = @owner
 
     if @spark.save
       render json: @spark, status: :created, location: @spark
@@ -59,6 +62,6 @@ class SparksController < ProtectedController
     end
 
     def spark_params
-      params.require(:spark).permit(:name, :details, :verification, :criteria, :deadline, :video, :photo, :user_id, :influencer_id)
+      params.require(:spark).permit(:name, :details, :verification, :criteria, :deadline, :category, :video, :photo, :user_id, :influencer_id)
     end
 end

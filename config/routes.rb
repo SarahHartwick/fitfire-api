@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :taggings, except: [:new, :edit]
+  resources :tags, except: [:new, :edit]
   resources :sparks, except: [:new, :edit]
   resources :profiles, except: [:new, :edit]
   resources :influencers, except: [:new, :edit]

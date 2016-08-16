@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815160342) do
+ActiveRecord::Schema.define(version: 20160815224504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20160815160342) do
     t.string   "snapchat"
     t.string   "profession"
     t.text     "certifications"
-    t.text     "tags"
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
@@ -69,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160815160342) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "influencer_id"
+    t.string   "category"
   end
 
   add_index "sparks", ["influencer_id"], name: "index_sparks_on_influencer_id", using: :btree
@@ -87,6 +87,22 @@ ActiveRecord::Schema.define(version: 20160815160342) do
   end
 
   add_index "sponsors", ["user_id"], name: "index_sponsors_on_user_id", using: :btree
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "spark_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "taggings", ["spark_id"], name: "index_taggings_on_spark_id", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
@@ -107,4 +123,6 @@ ActiveRecord::Schema.define(version: 20160815160342) do
   add_foreign_key "sparks", "influencers"
   add_foreign_key "sparks", "users"
   add_foreign_key "sponsors", "users"
+  add_foreign_key "taggings", "sparks"
+  add_foreign_key "taggings", "tags"
 end
