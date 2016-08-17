@@ -5,6 +5,9 @@ class TagsController < ApplicationController
   # GET /tags.json
   def index
     @tags = Tag.all
+    if params[:limit].present?
+        @tags =  @tags.limit(params[:limit])
+    end
 
     render json: @tags
   end

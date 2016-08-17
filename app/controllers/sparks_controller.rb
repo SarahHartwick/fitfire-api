@@ -10,7 +10,7 @@ class SparksController < ProtectedController
     if params[:category].present?
         @sparks =  @sparks.where(category: params[:category])
     end
-
+    p @sparks
     render json: @sparks
   end
 
@@ -39,20 +39,23 @@ class SparksController < ProtectedController
   # PATCH/PUT /sparks/1.json
   def update
     @spark = Spark.find(params[:id])
-
-    if @spark.update(spark_params)
-      head :no_content
-    else
-      render json: @spark.errors, status: :unprocessable_entity
+    if @spark.user_id == @current_user.id
+      if @spark.update(spark_params)
+        head :no_content
+      else
+        render json: @spark.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /sparks/1
   # DELETE /sparks/1.json
   def destroy
-    @spark.destroy
+    if @spark.user_id == @current_user.id
+      @spark.destroy
 
-    head :no_content
+      head :no_content
+    end
   end
 
   private

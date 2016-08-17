@@ -5,8 +5,12 @@ class TaggingsController < ApplicationController
   # GET /taggings.json
   def index
     @taggings = Tagging.all
-
-    render json: @taggings
+    if params[:tag_id].present?
+        @taggings =  @taggings.where(tag_id: params[:tag_id])
+    elsif params[:spark_id].present?
+        @taggings = @taggings.where(spark_id: params[:spark_id])
+    end
+      render json: @taggings
   end
 
   # GET /taggings/1

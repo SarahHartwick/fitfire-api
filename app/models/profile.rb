@@ -1,5 +1,4 @@
 #
 class Profile < ActiveRecord::Base
-  serialize :tags, Array
-  belongs_to :user
+  belongs_to :user, inverse_of: :profile
 end

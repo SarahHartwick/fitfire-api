@@ -11,7 +11,7 @@ class ProfilesController < ProtectedController
       end
 
     @profile = @profile.all
-
+  
     render json: @profile
   end
 
